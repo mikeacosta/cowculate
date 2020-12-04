@@ -9,13 +9,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
-
-import static io.cowculate.streams.Settings.SENSOR_COUNT;
 
 public class Cowculator {
 
@@ -29,25 +28,30 @@ public class Cowculator {
 
     private static void processDataStream(StreamWriter writer) throws InterruptedException {
 
-        List<String> sensors = getListFromCsv("src/main/resources/cows.csv");
+        List<String> sensors = getListFromCsv("src/main/resources/sensors.csv");
 
         while (true) {
 
-            for (int i = 0; i < SENSOR_COUNT; i++) {
-                long timeStamp = Instant.now().toEpochMilli();
+            for (int i = 0; i < sensors.size(); i++) {
+                if (i == 0)
+                    continue;
+
+                long timeStamp = Instant.now().truncatedTo( ChronoUnit.SECONDS ).toEpochMilli() / 1000;
                 float bodyTemp = getRandomFloat(100.5f, 102.5f);
                 int motion = getRandomNumber(1, 10);
                 float rumination = getRandomFloat(0f, 1f);
                 int sensorNo = i + 1;
+                String sensorId = sensors.get(i).split(",")[0];
                 UUID eventId = UUID.randomUUID();
 
                 String sensorEvent = String.format(
-                        "{\"timestamp\":%s,\"body_temperature\":\"%s\",\"motion\":\"%s\",\"rumination\":\"%s\",\"sensor_number\":%s,\"event_id\":\"%s\"}",
+                        "{\"timestamp\":%s,\"body_temperature\":\"%s\",\"motion\":\"%s\",\"rumination\":\"%s\",\"sensor_id\":\"%s\",\"event_id\":\"%s\"}",
                         timeStamp,
                         String.format("%.1f", bodyTemp),
                         motion,
                         String.format("%.2f", rumination),
-                        sensorNo, eventId
+                        sensorId,
+                        eventId
                 );
 
                 System.out.println(sensorEvent);
@@ -56,7 +60,7 @@ public class Cowculator {
                     TimeUnit.MILLISECONDS.sleep(50);
 
                 byte[] eventBytes = sensorEvent.getBytes(StandardCharsets.UTF_8);
-//                writer.putRecord(eventBytes);
+                writer.putRecord(eventBytes);
             }
         }
     }
