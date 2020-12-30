@@ -40,7 +40,6 @@ public class Cowculator {
                 float bodyTemp = getRandomFloat(100.5f, 102.5f);
                 int motion = getRandomNumber(1, 10);
                 float rumination = getRandomFloat(0f, 1f);
-                int sensorNo = i + 1;
                 String sensorId = sensors.get(i).split(",")[0];
                 UUID eventId = UUID.randomUUID();
 
@@ -52,7 +51,7 @@ public class Cowculator {
                         String.format("%.2f", rumination),
                         sensorId,
                         eventId
-                );
+                ) + "\n";
 
                 System.out.println(sensorEvent);
 
