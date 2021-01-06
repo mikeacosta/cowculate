@@ -51,14 +51,14 @@ def main(event, context):
     row = cur.fetchone()
     data, staging_events = row[:-1], row[-1]
 
-    cur.execute("SELECT COUNT(*) FROM sensorreadings")
+    cur.execute("SELECT COUNT(*) FROM sensorevents")
     row = cur.fetchone()
-    data, sensorreadings = row[:-1], row[-1]
+    data, sensorevents = row[:-1], row[-1]
 
     if (staging_events == 0):
         ok = False
 
-    if (staging_events > sensorreadings):
+    if (staging_events > sensorevents):
         ok = False
 
     conn.close()
@@ -69,3 +69,5 @@ def main(event, context):
         topic = client.create_topic(Name='message-from-lambda')
         topic_arn = topic['TopicArn'] 
         client.publish(Message="Warning: possible ETL data quality issue.  Please investigate.", TopicArn=topic_arn)
+
+    return ok        
