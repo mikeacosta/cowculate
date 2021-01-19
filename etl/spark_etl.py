@@ -31,7 +31,7 @@ def process_sensor_data(spark, input_data, output_data):
     
     # get filepath to sensor readings data    
     # sensor_data = input_data + 'redshift_processed/*/*/*/*/*.json'
-    sensor_data = input_data + '*/*/*/*/*.json'
+    sensor_data = input_data + '2021/*/*/*/*.json'
 
     # read sensor data
     print("----- reading sensor data files -----")
@@ -66,8 +66,8 @@ def process_sensor_data(spark, input_data, output_data):
 
 def main():
     spark = create_spark_session()
-    input_data = "s3a://cowculate/"
-    output_data = "s3a://cowculate/data_lake/"
+    input_data = "s3://cowculate/"
+    output_data = "s3://cowculate/data_lake/"
     
     process_sensor_data(spark, input_data, output_data)    
 
