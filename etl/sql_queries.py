@@ -61,7 +61,7 @@ sensorevents_table_create = ("""
     (
         event_id            varchar NOT NULL PRIMARY KEY,
         sensor_id           varchar NOT NULL,
-        timestamp           timestamp NOT NULL SORTKEY DISTKEY,
+        timestamp           timestamp NOT NULL DISTKEY,
         cow_number          integer NOT NULL,
         group_id            integer,
         body_temperature    float,
