@@ -6,6 +6,10 @@
 ### <p align="center">Data Warehouse and Data Lake ETL pipelines </p>
 
 <p align="center">
+    <img src="content/architecture.png" />
+</p>
+
+<p align="center">
     <img src="content/step_functions.png" />
 </p>
 
