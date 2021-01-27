@@ -5,7 +5,7 @@ Resources:
     Type: 'AWS::Kinesis::Stream'
     Properties:
       Name: cowculate-stream
-      ShardCount: 1
+      ShardCount: 2
       RetentionPeriodHours: 24
 Outputs:
   StreamArn:

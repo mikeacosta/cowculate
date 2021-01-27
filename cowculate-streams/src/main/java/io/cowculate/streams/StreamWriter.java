@@ -14,9 +14,7 @@ public class StreamWriter {
         this.producer = producer;
     }
 
-    public void putRecord( byte[] bytes) {
-
-        final String partitionKey = "1";
+    public void putRecord( byte[] bytes, String partitionKey) {
 
         ListenableFuture<UserRecordResult> future = producer.addUserRecord(
                 Settings.KINESIS_DATA_STREAM,

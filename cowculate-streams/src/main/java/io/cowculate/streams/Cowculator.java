@@ -40,8 +40,9 @@ public class Cowculator {
                 float bodyTemp = getRandomFloat(100.5f, 102.5f);
                 int motion = getRandomNumber(1, 10);
                 float rumination = getRandomFloat(0f, 1f);
-                String sensorId = sensors.get(i).split(",")[0];
+                String sensorId = sensors.get(i).split(",")[0].trim();
                 UUID eventId = UUID.randomUUID();
+                int partition = Integer.parseInt(sensors.get(i).split(",")[3].trim()) % 2 + 1;
 
                 String sensorEvent = String.format(
                         "{\"timestamp\":%s,\"body_temperature\":\"%s\",\"motion\":\"%s\",\"rumination\":\"%s\",\"sensor_id\":\"%s\",\"event_id\":\"%s\"}",
@@ -59,7 +60,7 @@ public class Cowculator {
                     TimeUnit.MILLISECONDS.sleep(50);
 
                 byte[] eventBytes = sensorEvent.getBytes(StandardCharsets.UTF_8);
-                writer.putRecord(eventBytes);
+                writer.putRecord(eventBytes, String.valueOf(partition));
             }
         }
     }

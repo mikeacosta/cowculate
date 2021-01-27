@@ -59,9 +59,9 @@ staging_sensors_table_create = ("""
 sensorevents_table_create = ("""
     CREATE TABLE IF NOT EXISTS sensorevents 
     (
-        event_id            varchar NOT NULL PRIMARY KEY DISTKEY,
+        event_id            varchar NOT NULL PRIMARY KEY,
         sensor_id           varchar NOT NULL,
-        timestamp           timestamp NOT NULL,
+        timestamp           timestamp NOT NULL SORTKEY DISTKEY,
         cow_number          integer NOT NULL,
         group_id            integer,
         body_temperature    float,
@@ -74,17 +74,17 @@ sensorevents_table_create = ("""
 sensors_table_create = ("""
     CREATE TABLE IF NOT EXISTS sensors
     (
-        sensor_id       varchar NOT NULL PRIMARY KEY,
+        sensor_id       varchar NOT NULL PRIMARY KEY DISTKEY,
         sensor_name     varchar,
         description     varchar,
-        cow_number      integer SORTKEY DISTKEY
+        cow_number      integer SORTKEY
     );
 """)
 
 cows_table_create = ("""
     CREATE TABLE IF NOT EXISTS cows
     (
-        cow_number      integer NOT NULL PRIMARY KEY SORTKEY,
+        cow_number      integer NOT NULL PRIMARY KEY DISTKEY,
         cow_name        varchar,
         age             integer,
         color           varchar
@@ -108,10 +108,10 @@ time_table_create = ("""
 groups_table_create = ("""
     CREATE TABLE IF NOT EXISTS groups
     (
-        group_id        integer NOT NULL PRIMARY KEY SORTKEY,
+        group_id        integer NOT NULL PRIMARY KEY,
         group_name      varchar,
         description     varchar,
-        udder_factor    integer   
+        udder_factor    integer SORTKEY
     );
 """)
 
